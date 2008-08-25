@@ -1,0 +1,26 @@
+Revision history for Rose-HTMLx-Form-Related
+
+0.01    23 Aug 2008
+        First version, released on an unsuspecting world.
+
+0.02    23 Aug 2008
+        * switch to schema->source from schema->class when introspecting
+          DBIC components' relationships
+
+0.03    23 Aug 2008
+        * revert 0.02 change for DBIC to use both source() AND class() because
+          of the way inheritance works in RDBOHelpers
+        * added tests for all relationships
+
+0.04    24 Aug 2008
+        * problem in 0.02 and 0.03 was not source vs class but using each()
+          on a hash ref. Might be that the internal iterator needed resetting.
+          In any case, changing to keys() fixed issue with undef values.
+
+0.05    xxx
+        * add app() method to RelInfo class and set it in discover_relationships()
+        * added get_controller() to RelInfo
+        * add missing prereqs to Makefile.PL
+
+
+
