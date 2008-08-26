@@ -235,7 +235,7 @@ sub _convert_field_to_menu {
         = $self->metadata->show_related_field_using( $rel_info->foreign_class,
         $field_name );
 
-    return if !defined $to_show;
+    return if !defined $to_show;    
 
     my $all_values_hash = {
         map { $_->$fk => $_->$to_show } @{

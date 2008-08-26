@@ -49,14 +49,33 @@ sub init_metadata_class {
 Overrides base method to use schema_class()
 to fetch objects of I<class>.
 
+If you are using the deploy() feature of DBIC you may
+encounter a race condition where the schema has not yet
+fully populated. In that case, you may want to set the
+C<DBIC_DEPLOY_IN_PROGRESS> environment variable prior
+to instantiating this Form. If that variable is set to a true
+value, get_objects() and get_objects_count() will both
+return undef, which should abort the interrelate_fields()
+method (which is what you want).
+
 =cut
+
+sub _get_moniker {
+    my ( $self, $schema, $class ) = @_;
+    for my $moniker ( $schema->sources ) {
+        if ( $schema->class($moniker)->isa($class) ) {
+            return $moniker;
+        }
+    }
+    croak "could not find moniker for $class in $schema";
+}
 
 sub get_objects {
     return undef if $ENV{DBIC_DEPLOY_IN_PROGRESS};
     my $self    = shift;
     my $class   = pop;
-    my $moniker = $self->object_class;
     my $schema  = $self->metadata->schema_class;
+    my $moniker = $self->_get_moniker( $schema, $class );
     return [
         $schema->connect( $schema->init_connect_info )->resultset($moniker)
             ->all() ];
@@ -67,14 +86,16 @@ sub get_objects {
 Overrides base method to use schema_class()
 to fetch object count for I<class>.
 
+See the C<DBIC_DEPLOY_IN_PROGRESS> environment variable above.
+
 =cut
 
 sub get_objects_count {
     return undef if $ENV{DBIC_DEPLOY_IN_PROGRESS};
     my $self    = shift;
     my $class   = pop;
-    my $moniker = $self->object_class;
     my $schema  = $self->metadata->schema_class;
+    my $moniker = $self->_get_moniker( $schema, $class );
     return $schema->connect( $schema->init_connect_info )->resultset($moniker)
         ->count();
 }

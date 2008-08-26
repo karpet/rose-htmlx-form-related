@@ -85,12 +85,19 @@ sub discover_relationships {
             else {
 
                 # one2many
-                my ( $foreign, $local ) = each %{ $dbic_info->{cond} };
-                $foreign =~ s/^foreign\.//;
-                $local   =~ s/^self\.//;
-                $relinfo->cmap( { $local => $foreign } );    # TODO ??
-                $relinfo->type('one to many');
-                $relinfo->foreign_class( $dbic_info->{class} );
+                my @foreign = keys %{ $dbic_info->{cond} };
+                if ( @foreign > 1 ) {
+                    croak "too many conditions to identify FK in rel $r";
+                }
+                for my $foreign (@foreign) {
+                    my $local = $dbic_info->{cond}->{$foreign};
+                    $foreign =~ s/^foreign\.//;
+                    $local   =~ s/^self\.//;
+                    $relinfo->cmap( { $local => $foreign } );    # TODO ??
+                    $relinfo->type('one to many');
+                    $relinfo->foreign_class( $dbic_info->{class} );
+                    last;
+                }
 
             }
 
@@ -114,6 +121,7 @@ sub discover_relationships {
                 $relinfo->cmap( { $local => $foreign } );    # TODO ??
                 $relinfo->type('foreign key');
                 $relinfo->foreign_class( $dbic_info->{class} );
+                last;
             }
         }
         else {
@@ -123,7 +131,7 @@ sub discover_relationships {
         }
 
         if ($app) {
-        
+
             $relinfo->app($app);
 
             # create URL and controller if available.
