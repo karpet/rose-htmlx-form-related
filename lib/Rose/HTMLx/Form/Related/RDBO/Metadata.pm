@@ -76,7 +76,7 @@ sub discover_relationships {
         }
 
         if ($app) {
-        
+
             $relinfo->app($app);
 
             # create URL and controller if available.
@@ -89,8 +89,13 @@ sub discover_relationships {
                     grep { defined($_) }
                         ( $controller_prefix, $controller_name ) )
             );
-            $relinfo->controller(
-                $app->controller( $relinfo->controller_class ) );
+
+            # only want a controller instance if $app is fully
+            # initialized (not a class name)
+            if ( ref $app ) {
+                $relinfo->controller(
+                    $app->controller( $relinfo->controller_class ) );
+            }
 
         }
 
