@@ -24,6 +24,10 @@ Revision history for Rose-HTMLx-Form-Related
         * add missing docs
         * refactor DBIC get_objects() and get_objects_count() to actually work.
 
+0.06    26 Aug 2008
+        * set label for DBIC m2m to method name not rel_name
+
+
 
 
 

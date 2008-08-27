@@ -8,7 +8,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 NAME
 
@@ -58,9 +58,9 @@ sub discover_relationships {
         $relinfo->name($r);
         $relinfo->method($method);
         $relinfo->label(
-            $self->labels->{$method} || $self->labels->{$r} || join(
+            $self->labels->{$method} || join(
                 ' ', map { ucfirst($_) }
-                    split( m/_/, $r )
+                    split( m/_/, $method )
             )
         );
 
@@ -80,6 +80,11 @@ sub discover_relationships {
                 $relinfo->map_from( $m2m->{map_from} );
                 $relinfo->foreign_class( $m2m->{foreign_class} );
                 $relinfo->map_to( $m2m->{map_to} );
+                $relinfo->label(
+                    $self->labels->{ $relinfo->method } || join( ' ',
+                        map { ucfirst($_) }
+                            split( m/_/, $relinfo->method ) )
+                );
 
             }
             else {
