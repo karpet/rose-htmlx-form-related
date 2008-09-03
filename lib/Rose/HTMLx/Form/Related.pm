@@ -229,13 +229,14 @@ sub _convert_field_to_menu {
     my $field = $self->field($field_name);
     return if $field->isa('Rose::HTML::Form::Field::Hidden');
     return if defined $field->type and $field->type eq 'hidden';
+    return if $field->isa('Rose::HTML::Form::Field::PopUpMenu');
 
     my $fk = $rel_info->foreign_column;
     my $to_show
         = $self->metadata->show_related_field_using( $rel_info->foreign_class,
         $field_name );
 
-    return if !defined $to_show;    
+    return if !defined $to_show;
 
     my $all_values_hash = {
         map { $_->$fk => $_->$to_show } @{
@@ -270,6 +271,7 @@ sub _convert_field_to_autocomplete {
     my $field      = $self->field($field_name);
     return if $field->isa('Rose::HTML::Form::Field::Hidden');
     return if defined $field->type and $field->type eq 'hidden';
+    return if $field->isa('Rose::HTMLx::Form::Field::Autocomplete');
 
     #dump $meta;
     my $app = $self->app || $self->app_class

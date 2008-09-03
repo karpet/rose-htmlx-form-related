@@ -29,5 +29,6 @@ Revision history for Rose-HTMLx-Form-Related
 
 0.07    xxx
         * support multicolumn PKs in DBIC::Metadata
+        * do not re-make pop menus or autocomplete fields in interrelate_fields()
 
 
