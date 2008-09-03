@@ -25,6 +25,7 @@ use Rose::Object::MakeMethods::Generic (
         'show_related_values' => { default => 1 },
         'show_related_fields' => { default => 1 },
         'show_relationships'  => { default => 1 },
+        'interrelate_fields'  => { default => 1 },
     ],
 );
 

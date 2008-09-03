@@ -53,7 +53,7 @@ not part of the standard Rose::HTML::Form installation.
 =head2 init
 
 Overrides base method to call interrelate_fields() if 
-metadata->show_related_fields() is true.
+metadata->interrelate_fields() is true.
 
 =cut
 
@@ -63,7 +63,7 @@ sub init {
     for my $field ( $self->fields ) {
         $field->xhtml_error_separator('');    # let CSS decide space
     }
-    $self->interrelate_fields if $self->metadata->show_related_fields;
+    $self->interrelate_fields if $self->metadata->interrelate_fields;
 }
 
 =head2 init_metadata

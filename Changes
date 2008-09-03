@@ -31,5 +31,6 @@ Revision history for Rose-HTMLx-Form-Related
         * support multicolumn PKs in DBIC::Metadata
         * do not re-make pop menus or autocomplete fields in interrelate_fields()
         * add foreign_column_for() method in RelInfo to support multi-col FKs
+        * add interrelate_fields() boolean to Metadata to toggle on/off
 
 
