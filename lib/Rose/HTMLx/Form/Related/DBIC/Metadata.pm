@@ -8,7 +8,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -91,17 +91,14 @@ sub discover_relationships {
 
                 # one2many
                 my @foreign = keys %{ $dbic_info->{cond} };
-                if ( @foreign > 1 ) {
-                    croak "too many conditions to identify FK in rel $r";
-                }
+                $relinfo->cmap( {} );
                 for my $foreign (@foreign) {
                     my $local = $dbic_info->{cond}->{$foreign};
                     $foreign =~ s/^foreign\.//;
                     $local   =~ s/^self\.//;
-                    $relinfo->cmap( { $local => $foreign } );    # TODO ??
+                    $relinfo->cmap->{$local} = $foreign;
                     $relinfo->type('one to many');
                     $relinfo->foreign_class( $dbic_info->{class} );
-                    last;
                 }
 
             }
@@ -110,23 +107,15 @@ sub discover_relationships {
         elsif ( ref( $dbic_info->{cond} ) eq 'HASH' ) {
 
             # 'single' et al treat like FK
-
-            #warn "$r is ! multi";
-
-            #warn '-' x 50 . "\n$r : " . dump $dbic_info;
-
             my @foreign = keys %{ $dbic_info->{cond} };
-            if ( @foreign > 1 ) {
-                croak "too many conditions to identify FK in rel $r";
-            }
+            $relinfo->cmap( {} );
             for my $foreign (@foreign) {
                 my $local = $dbic_info->{cond}->{$foreign};
                 $foreign =~ s/^foreign\.//;
                 $local   =~ s/^self\.//;
-                $relinfo->cmap( { $local => $foreign } );    # TODO ??
+                $relinfo->cmap->{$local} = $foreign;
                 $relinfo->type('foreign key');
                 $relinfo->foreign_class( $dbic_info->{class} );
-                last;
             }
         }
         else {
