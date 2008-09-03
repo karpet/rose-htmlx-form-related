@@ -243,11 +243,16 @@ sub _build {
         $relationship_info{ $relinfo->name } = $relinfo;
 
         if ( my $colmap = $relinfo->cmap ) {
+            $relinfo->foreign_column( {} );
             for my $field_name ( @{ $self->form->field_names } ) {
                 next unless exists $colmap->{$field_name};
+
                 #warn
-                #    "field_name $field_name is in cmap ... adding to related_fields";
-                $relinfo->foreign_column( $colmap->{$field_name} );
+                #    "field_name $field_name is in cmap";
+
+                $relinfo->foreign_column->{$field_name}
+                    = $colmap->{$field_name};
+
                 $related_fields{$field_name} = $relinfo;
             }
         }

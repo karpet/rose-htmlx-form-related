@@ -74,6 +74,24 @@ sub get_controller {
     return $c;
 }
 
+=head2 foreign_column_for( I<field_name> )
+
+Returns the name of the foreign column related to I<field_name>.
+Shortcut for looking up items in cmap().
+
+=cut
+
+sub foreign_column_for {
+    my $self = shift;
+    my $name = shift;
+    if ( ref( $self->foreign_column ) ) {
+        return $self->foreign_column->{$name};
+    }
+    else {
+        return $self->foreign_column;
+    }
+}
+
 1;
 
 __END__

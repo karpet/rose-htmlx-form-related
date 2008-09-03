@@ -231,7 +231,7 @@ sub _convert_field_to_menu {
     return if defined $field->type and $field->type eq 'hidden';
     return if $field->isa('Rose::HTML::Form::Field::PopUpMenu');
 
-    my $fk = $rel_info->foreign_column;
+    my $fk = $rel_info->foreign_column_for($field_name);
     my $to_show
         = $self->metadata->show_related_field_using( $rel_info->foreign_class,
         $field_name );
