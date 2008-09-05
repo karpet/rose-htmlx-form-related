@@ -1,4 +1,4 @@
-use Test::More tests => 20;
+use Test::More tests => 29;
 use strict;
 use lib qw( t ../lib lib );
 use Data::Dump qw( dump );
@@ -24,12 +24,18 @@ SKIP: {
     use_ok('MyDBIC::Form::Cd');
     use_ok('MyDBIC::Form::Artist');
     use_ok('MyDBIC::Form::Track');
+    use_ok('MyDBIC::Form::CdEdition');
+    use_ok('MyDBIC::Form::CdCollection');
 
     system("cd t/ && $^X dbic_create.pl") and die "can't create db: $!";
 
     ok( my $cdform     = MyDBIC::Form::Cd->new(),     "new Cd form" );
     ok( my $artistform = MyDBIC::Form::Artist->new(), "new Artist form" );
     ok( my $trackform  = MyDBIC::Form::Track->new(),  "new Track form" );
+    ok( my $cdcollectionform = MyDBIC::Form::CdCollection->new(),
+        "new CdCollection form" );
+    ok( my $cdeditionform = MyDBIC::Form::CdEdition->new(),
+        "new CdEdition form" );
 
     # Cd
     ok( my $cd_rels = $cdform->metadata->relationships, "cd relationships" );
@@ -55,4 +61,25 @@ SKIP: {
     is( scalar(@$track_rels),   1,              "1 track rel" );
     is( $track_rels->[0]->type, "many to many", "is m2m" );
     is( $track_rels->[0]->name, "cds",          "name == cds" );
+
+    # CdEdition
+    ok( my $cdedition_rels = $cdeditionform->metadata->relationships,
+        "cdedition relationships" );
+    is( scalar(@$cdedition_rels), 2, "2 cdedition rels" );
+
+    # make sure interrelate fields was aborted for the cdcollection rel
+    ok( $cdeditionform->field('cdid')
+            ->isa('Rose::HTML::Form::Field::Integer'),
+        "interrelate_fields correctly aborted"
+    );
+
+    #dump $cdeditionform;
+
+    # CdCollection
+
+    ok( my $cdcollection_rels = $cdcollectionform->metadata->relationships,
+        "cdcollection relationships" );
+    is( scalar(@$cdcollection_rels), 1, "1 cdcollection rel" );
+
+    #dump $cdcollectionform;
 }
