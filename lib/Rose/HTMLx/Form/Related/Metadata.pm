@@ -410,12 +410,14 @@ sub foreign_field_value {
     my $self       = shift;
     my $field_name = shift or croak "field_name required";
     my $object     = shift or croak "data object required";
-    my $info       = $self->related_field($field_name) or return;
+    return unless $self->is_related_field($field_name);
+    my $info = $self->related_field($field_name) or return;
     my $foreign_field
         = $self->show_related_field_using( $info->{foreign_class},
         $field_name );
     my $method         = $info->{method};
     my $foreign_object = $object->$method;
+
     if ( defined $foreign_object ) {
         return $foreign_object->$foreign_field;
     }
