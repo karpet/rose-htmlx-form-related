@@ -60,6 +60,9 @@ sub init {
         croak "Rose::HTMLx::Form::Related object required";
     }
     $self->_build;
+    if ( $self->form->debug ) {
+        dump $self;
+    }
     return $self;
 }
 
