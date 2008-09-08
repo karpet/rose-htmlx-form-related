@@ -13,7 +13,7 @@ SKIP: {
         skip "DBIC required to test DBIC driver", 20;
     }
     elsif ( $DBIx::Class::VERSION < 0.08010 ) {
-        croak "DBIx::Class VERSION 0.08010 or newer required";
+        skip "DBIx::Class VERSION 0.08010 or newer required", 20;
     }
 
     eval "use DBIx::Class::RDBOHelpers";
