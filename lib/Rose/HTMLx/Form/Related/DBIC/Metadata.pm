@@ -44,13 +44,14 @@ sub discover_relationships {
     # get relationship objects from DBIC
     my %seen;
     my $class   = $self->schema_class->class( $self->object_class );
-    my $moniker = $self->object_class;
+    my $moniker = $self->form->_get_moniker( $self->schema_class, $class );
+    my $source  = $self->schema_class->source($moniker);
+
+    #warn '=' x 50 . "\nclass $class moniker $moniker source $source";
 
     my @relinfos;
 
-    #warn '=' x 50 . "\nclass $class";
-
-    for my $r ( $class->relationships ) {
+    for my $r ( $source->relationships ) {
         my $dbic_info = $class->relationship_info($r);
         my $relinfo   = $self->relinfo_class->new;
 
@@ -136,9 +137,8 @@ sub discover_relationships {
             $relinfo->app($app);
 
             # create URL and controller if available.
-            my $prefix = $self->schema_class->class( $self->object_class )
-                ->schema_class_prefix;
-            my $controller_name = $relinfo->foreign_class;
+            my $prefix = $class->schema_class_prefix;
+            my $controller_name = $relinfo->foreign_class || '';
             $controller_name =~ s/^${prefix}:://;
             my $controller_prefix = $self->controller_prefix;
             $relinfo->controller_class(
