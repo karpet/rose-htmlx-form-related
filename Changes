@@ -35,3 +35,5 @@ Revision history for Rose-HTMLx-Form-Related
         * skip interrelate_fields() if FK represents multiple columns
         * skip DBIC::Metadata->discover_relationships() if DBIC_DEPLOY_IN_PROGRESS
         * refactor DBIC::discover_relationships() to use ResultSource instead of ResultSet
+        * catch edge case where no foreign class defined
+
