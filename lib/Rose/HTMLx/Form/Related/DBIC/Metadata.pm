@@ -25,11 +25,18 @@ Only overriden or new methods are described here.
 =head2 discover_relationships
 
 Implements DBIC relationship introspection.
+As with DBIC->get_objects() and DBIC->get_objects_count(),
+discover_relationships() will be a no-op of the 
+DBIC_DEPLOY_IN_PROGRESS env var is true.
 
 =cut
 
 sub discover_relationships {
     my $self = shift;
+
+    if ( $ENV{DBIC_DEPLOY_IN_PROGRESS} ) {
+        return $self->relationships( [] );
+    }
 
     # if running under Catalyst (e.g.) get controller info
     my $app = $self->form->app_class || $self->form->app;
