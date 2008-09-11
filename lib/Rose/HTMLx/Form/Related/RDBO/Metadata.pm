@@ -82,6 +82,9 @@ sub discover_relationships {
             # create URL and controller if available.
             my $prefix          = $self->object_class->schema_class_prefix;
             my $controller_name = $relinfo->foreign_class;
+            if ( !$controller_name ) {
+                croak "no foreign class in relinfo: " . dump $relinfo;
+            }
             $controller_name =~ s/^${prefix}:://;
             my $controller_prefix = $self->controller_prefix;
             $relinfo->controller_class(

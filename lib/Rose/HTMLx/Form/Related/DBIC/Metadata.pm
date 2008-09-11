@@ -80,6 +80,8 @@ sub discover_relationships {
             if ( exists $dbic_info->{m2m} ) {
 
                 my $m2m = $dbic_info->{m2m};
+                
+                #warn dump $m2m;
 
                 $relinfo->type('many to many');
                 $relinfo->method( $m2m->{method_name} );
@@ -137,8 +139,11 @@ sub discover_relationships {
             $relinfo->app($app);
 
             # create URL and controller if available.
-            my $prefix = $class->schema_class_prefix;
-            my $controller_name = $relinfo->foreign_class || '';
+            my $prefix          = $class->schema_class_prefix;
+            my $controller_name = $relinfo->foreign_class;
+            if ( !$controller_name ) {
+                croak "no foreign class in relinfo: " . dump $relinfo;
+            }
             $controller_name =~ s/^${prefix}:://;
             my $controller_prefix = $self->controller_prefix;
             $relinfo->controller_class(
