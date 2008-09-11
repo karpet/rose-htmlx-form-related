@@ -9,12 +9,14 @@ use Carp;
 use Rose::HTMLx::Form::Related::Metadata;
 use Rose::HTMLx::Form::Field::Boolean;
 use Rose::HTMLx::Form::Field::Autocomplete;
+use Rose::HTMLx::Form::Field::Serial;
 use Rose::HTML::Form::Field::PopUpMenu;
 
 __PACKAGE__->field_type_class(
     boolean => 'Rose::HTMLx::Form::Field::Boolean' );
 __PACKAGE__->field_type_class(
     autocomplete => 'Rose::HTMLx::Form::Field::Autocomplete' );
+__PACKAGE__->field_type_class( serial => 'Rose::HTMLx::Form::Field::Serial' );
 
 use Rose::Object::MakeMethods::Generic (
     'scalar --get_set_init' =>
