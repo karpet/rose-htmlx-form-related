@@ -27,7 +27,7 @@ Revision history for Rose-HTMLx-Form-Related
 0.06    26 Aug 2008
         * set label for DBIC m2m to method name not rel_name
 
-0.07    xxx
+0.07    11 Sept 2008
         * support multicolumn PKs in DBIC::Metadata
         * do not re-make pop menus or autocomplete fields in interrelate_fields()
         * add foreign_column_for() method in RelInfo to support multi-col FKs
