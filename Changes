@@ -37,3 +37,6 @@ Revision history for Rose-HTMLx-Form-Related
         * refactor DBIC::discover_relationships() to use ResultSource instead of ResultSet
         * catch edge case where no foreign class defined
 
+0.08    12 Sept 2008
+        * fix missing req in Makefile.PL
+

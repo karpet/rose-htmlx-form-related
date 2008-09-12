@@ -4,7 +4,7 @@ use base qw( Rose::HTMLx::Form::Related::Metadata );
 use Carp;
 use Data::Dump qw( dump );
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 NAME
 
