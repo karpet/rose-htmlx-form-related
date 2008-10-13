@@ -26,6 +26,8 @@ Implements RDBO relationship introspection.
 
 sub discover_relationships {
     my $self = shift;
+    
+    my $debug = $self->form->debug;
 
     # if running under Catalyst (e.g.) get controller info
     my $app = $self->form->app_class || $self->form->app;
@@ -60,12 +62,18 @@ sub discover_relationships {
                     split( m/_/, $name )
             )
         );
+        
+        $debug and carp dump $relinfo;
 
         if ( $type eq 'many to many' ) {
             my $map_to = $rdbo_rel->map_to;
+            my $map_class = $rdbo_rel->map_class;
+            $debug and carp "map_to = $map_to";
+            $debug and carp "map_class = $map_class";
+            $debug and carp dump $map_class->meta;
             my $foreign_rel
                 = $rdbo_rel->map_class->meta->relationship($map_to);
-            $relinfo->map_class( $rdbo_rel->map_class );
+            $relinfo->map_class( $map_class );
             $relinfo->foreign_class( $foreign_rel->class );
             $relinfo->map_to($map_to);
             $relinfo->map_from( $rdbo_rel->map_from );
