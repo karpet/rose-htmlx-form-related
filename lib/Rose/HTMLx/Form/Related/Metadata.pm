@@ -7,7 +7,7 @@ use base qw( Rose::Object );
 
 use Rose::HTMLx::Form::Related::RelInfo;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 use Rose::Object::MakeMethods::Generic (
     'scalar' => [
@@ -15,11 +15,12 @@ use Rose::Object::MakeMethods::Generic (
             related_fields related_field_names )
     ],
     'scalar --get_set_init' => [
-        'relationships',            'relinfo_class',
-        'object_class',             'labels',
-        'controller_prefix',        'field_uris',
-        'related_field_map',        'default_sort_by',
-        'takes_object_as_argument', 'field_methods'
+        'relationships',     'relinfo_class',
+        'object_class',      'labels',
+        'controller_prefix', 'field_uris',
+        'related_field_map', 'default_sort_by',
+        'default_selected',  'takes_object_as_argument',
+        'field_methods'
     ],
     'boolean --get_set' => [
         'show_related_values' => { default => 1 },
@@ -139,6 +140,17 @@ Default is null (emptry string).
 =cut
 
 sub init_default_sort_by { return '' }
+
+=head2 init_default_selected
+
+Should return the name of the relationship to show as initially
+active in an interface.
+
+Default is null (emptry string).
+
+=cut
+
+sub init_default_selected { return '' }
 
 =head2 init_takes_object_as_argument
 

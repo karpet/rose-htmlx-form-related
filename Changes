@@ -40,3 +40,8 @@ Revision history for Rose-HTMLx-Form-Related
 0.08    12 Sept 2008
         * fix missing req in Makefile.PL
 
+0.09    xxx
+        * add some more debugging to RDBO Metadata
+        * add init_default_sort_by to Metadata base class
+
+
