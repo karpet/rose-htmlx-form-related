@@ -1,4 +1,4 @@
-use Test::More tests => 29;
+use Test::More tests => 39;
 use strict;
 use lib qw( t ../lib lib );
 use Data::Dump qw( dump );
@@ -82,4 +82,38 @@ SKIP: {
     is( scalar(@$cdcollection_rels), 1, "1 cdcollection rel" );
 
     #dump $cdcollectionform;
+
+    # test menu and menu update via clear()
+    #dump $cdform;
+
+    ok( my $artist_field = $cdform->field('artist'), "get artist field" );
+
+    #diag( $artist_field->xhtml );
+
+    ok( $artist_field->isa('Rose::HTML::Form::Field::PopUpMenu'),
+        "cdform artist field transformed into popup menu"
+    );
+    ok( my $option1 = $artist_field->option(1), "option 1" );
+
+    #dump $option1;
+    is( $option1->label, 'Michael Jackson', "option1 is Michael Jackson" );
+
+    # add another row to artists, and clear form,
+    # checking that new option is in menu
+    ok( my $schema = $cdform->metadata->schema_class, "new schema" );
+    ok( my $otis
+            = $schema->connect( $schema->init_connect_info )
+            ->resultset('Artist')->new( { name => 'Otis Redding' } ),
+        "new Otis Redding artist"
+    );
+
+    #dump $schema->storage;
+    #dump $otis;
+    ok( $otis->insert, "insert Otis" );
+
+    ok( $cdform->clear, "clear form" );
+    ok( my $option3 = $artist_field->option(3), "get option3" );
+    is( $option3->label, 'Otis Redding', "option3 is Otis Redding" );
+
+    #dump $artistform;
 }

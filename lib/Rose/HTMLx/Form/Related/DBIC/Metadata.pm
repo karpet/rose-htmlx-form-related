@@ -8,7 +8,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub discover_relationships {
             if ( exists $dbic_info->{m2m} ) {
 
                 my $m2m = $dbic_info->{m2m};
-                
+
                 #warn dump $m2m;
 
                 $relinfo->type('many to many');
@@ -188,14 +188,16 @@ sub show_related_field_using {
 
     for my $constraint ( $fclass->unique_constraint_names ) {
 
-        #warn "constraint name for $fclass: $constraint";
+        $self->form->debug
+            and warn "constraint name for $fclass: $constraint";
         my @u = $fclass->unique_constraint_columns($constraint);
         next if @u > 1;
         for my $column (@u) {
 
             my $info = $fclass->column_info($column);
 
-            #carp "column $column : " . dump $info;
+            $self->form->debug
+                and warn "column $column : " . dump $info;
 
             if ( defined $info->{data_type}
                 and $info->{data_type} =~ m/char/ )

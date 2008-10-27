@@ -44,4 +44,7 @@ Revision history for Rose-HTMLx-Form-Related
         * add some more debugging to RDBO Metadata
         * add init_default_sort_by to Metadata base class
 
+0.10    27 Oct 2008
+        * calling $form->reset or $form->clear will now refetch objects from db for interrelated 
+          menus, re-populating the options.
 

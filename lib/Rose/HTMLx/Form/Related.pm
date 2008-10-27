@@ -24,7 +24,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -244,13 +244,37 @@ popup menus.
 The default is to return an empty array ref. Override
 in your subclass to do something more meaningful.
 
-Note that get_objects() will be called every time a new
-Form object is created, so consider caching your Form
-objects and just calling reset() between uses.
+Note that get_objects() will be called by clear() and reset()
+so that you can cache Form objects and always get up-to-date
+menu options.
 
 =cut
 
 sub get_objects { [] }
+
+sub __set_menu_options {
+    my ( $self, $menu, $rel_info ) = @_;
+    my $field_name = $menu->name;
+    my $fk         = $rel_info->foreign_column_for($field_name);
+    my $to_show
+        = $self->metadata->show_related_field_using( $rel_info->foreign_class,
+        $field_name );
+
+    $self->debug and warn "$field_name $fk -> $to_show";
+
+    return if !defined $to_show;
+
+    my $objects
+        = $self->get_objects( object_class => $rel_info->foreign_class );
+    my $hash = { map { $_->$fk => $_->$to_show } @$objects };
+    $menu->options(
+        [   sort { $hash->{$a} cmp $hash->{$b} }
+                keys %$hash
+        ]
+    );
+    $menu->labels($hash);
+    return $menu;
+}
 
 sub _convert_field_to_menu {
     my $self       = shift;
@@ -264,34 +288,16 @@ sub _convert_field_to_menu {
 
     $self->debug and warn "$field_name converting to menu";
 
-    my $fk = $rel_info->foreign_column_for($field_name);
-    my $to_show
-        = $self->metadata->show_related_field_using( $rel_info->foreign_class,
-        $field_name );
-
-    $self->debug and warn "$field_name to_show = $to_show";
-
-    return if !defined $to_show;
-
-    my $all_values_hash = {
-        map { $_->$fk => $_->$to_show } @{
-            $self->get_objects( object_class => $rel_info->foreign_class )
-            }
-    };
-
     my $menu = Rose::HTML::Form::Field::PopUpMenu->new(
         id       => $field->id,
+        name     => $field_name,
         type     => 'menu',
-        class    => $field->class,
+        class    => 'interrelated ' . ( $field->class || '' ),
         label    => $field->label,
         tabindex => $field->tabindex,
-        rank     => $field->rank,
-        options  => [
-            sort { $all_values_hash->{$a} cmp $all_values_hash->{$b} }
-                keys %$all_values_hash
-        ],
-        labels => $all_values_hash,
+        rank     => $field->rank
     );
+    $self->__set_menu_options( $menu, $rel_info ) or return;
 
     # must delete first since field() will return cached $field
     # if it already has been added.
@@ -324,7 +330,7 @@ sub _convert_field_to_autocomplete {
     my $ac = Rose::HTMLx::Form::Field::Autocomplete->new(
         id           => $field->id,
         type         => 'autocomplete',
-        class        => $field->class,
+        class        => 'interrelated ' . ( $field->class || '' ),
         label        => $field->label,
         tabindex     => $field->tabindex,
         rank         => $field->rank,
@@ -355,6 +361,43 @@ sub init_with_object {
     my $self = shift;
     my $ret  = $self->SUPER::init_with_object(@_);
     return $self;
+}
+
+=head2 clear
+
+Overrides base method to reset any options in any interrelated
+menu fields by calling get_objects() again.
+
+=head2 reset
+
+Overrides base method to reset any options in any interrelated
+menu fields by calling get_objects() again.
+
+=cut
+
+sub clear {
+    my $self = shift;
+    $self->SUPER::clear(@_);
+    $self->__reset_menu_options;
+    return $self;
+}
+
+sub reset {
+    my $self = shift;
+    $self->SUPER::reset(@_);
+    $self->__reset_menu_options;
+    return $self;
+}
+
+sub __reset_menu_options {
+    my $self = shift;
+    for my $field ( @{ $self->fields } ) {
+        next unless $field->isa('Rose::HTML::Form::Field::PopUpMenu');
+        next unless $field->class && $field->class =~ m/interrelated/;
+
+        my $rel_info = $self->metadata->related_field( $field->name ) or next;
+        $self->__set_menu_options( $field, $rel_info );
+    }
 }
 
 1;
