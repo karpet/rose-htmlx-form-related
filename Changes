@@ -48,3 +48,7 @@ Revision history for Rose-HTMLx-Form-Related
         * calling $form->reset or $form->clear will now refetch objects from db for interrelated 
           menus, re-populating the options.
 
+0.11    27 Oct 2008
+        * fix dbic tests so they skip the correct number of tests
+
+
