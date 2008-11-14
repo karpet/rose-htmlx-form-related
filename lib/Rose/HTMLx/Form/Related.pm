@@ -24,7 +24,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 =head1 NAME
 
@@ -328,13 +328,13 @@ sub _convert_field_to_autocomplete {
     return if !defined $to_show;
 
     my $ac = Rose::HTMLx::Form::Field::Autocomplete->new(
-        id           => $field->id,
-        type         => 'autocomplete',
-        class        => 'interrelated ' . ( $field->class || '' ),
-        label        => $field->label,
-        tabindex     => $field->tabindex,
-        rank         => $field->rank,
-        size         => $field->size,
+        id       => $field->id,
+        type     => 'autocomplete',
+        class    => 'interrelated ' . ( $field->class || '' ),
+        label    => $field->label,
+        tabindex => $field->tabindex,
+        rank     => $field->rank,
+        size         => 30,                  # ignore original $field size
         maxlength    => $field->maxlength,
         autocomplete => $app->uri_for(
             '/' . $rel_info->controller->path_prefix,
