@@ -433,12 +433,13 @@ sub foreign_field_value {
     my $method         = $info->{method};
     my $foreign_object = $object->$method;
 
-    # special RDBOHelper and MoreHelpers method
-    if ( $foreign_object->can('unique_value') ) {
-        $foreign_field = 'unique_value';
-    }
-
     if ( defined $foreign_object ) {
+
+        # special RDBOHelper and MoreHelpers method
+        if ( $foreign_object->can('unique_value') ) {
+            $foreign_field = 'unique_value';
+        }
+
         return $foreign_object->$foreign_field;
     }
     else {
