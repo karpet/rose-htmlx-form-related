@@ -330,7 +330,7 @@ sub _convert_field_to_autocomplete {
     my $ac = Rose::HTMLx::Form::Field::Autocomplete->new(
         id       => $field->id,
         type     => 'autocomplete',
-        class    => 'interrelated ' . ( $field->class || '' ),
+        class    => 'interrelated autocomplete ' . ( $field->class || '' ),
         label    => $field->label,
         tabindex => $field->tabindex,
         rank     => $field->rank,

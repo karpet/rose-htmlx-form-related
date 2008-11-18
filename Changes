@@ -51,7 +51,7 @@ Revision history for Rose-HTMLx-Form-Related
 0.11    27 Oct 2008
         * fix dbic tests so they skip the correct number of tests
 
-0.12    xxx
+0.12    17 Nov 2008
         * support the new 'unqiue_value()' method in RDBOHelpers and MoreHelpers, which will now
           override show_related_field_using() when called in foreign_field_value().
 
