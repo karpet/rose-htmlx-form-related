@@ -4,7 +4,7 @@ use base qw( Rose::HTMLx::Form::Related::Metadata );
 use Carp;
 use Data::Dump qw( dump );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -26,7 +26,7 @@ Implements RDBO relationship introspection.
 
 sub discover_relationships {
     my $self = shift;
-    
+
     my $debug = $self->form->debug;
 
     # if running under Catalyst (e.g.) get controller info
@@ -62,20 +62,26 @@ sub discover_relationships {
                     split( m/_/, $name )
             )
         );
-        
+
         $debug and carp dump $relinfo;
 
         if ( $type eq 'many to many' ) {
-            my $map_to = $rdbo_rel->map_to;
+            my $map_to    = $rdbo_rel->map_to;
             my $map_class = $rdbo_rel->map_class;
             $debug and carp "map_to = $map_to";
             $debug and carp "map_class = $map_class";
             $debug and carp dump $map_class->meta;
-            my $foreign_rel
-                = $rdbo_rel->map_class->meta->relationship($map_to);
-            $relinfo->map_class( $map_class );
+            my $foreign_rel = $map_class->meta->relationship($map_to);
+            my $local_rel
+                = $map_class->meta->relationship( $rdbo_rel->map_from );
+            my @forcolmap = %{ $foreign_rel->column_map };
+            $debug and carp dump \@forcolmap;
+            my @loccolmap = %{ $local_rel->column_map };
+            $relinfo->map_class($map_class);
             $relinfo->foreign_class( $foreign_rel->class );
             $relinfo->map_to($map_to);
+            $relinfo->map_to_column( $forcolmap[0] );
+            $relinfo->map_from_column( $loccolmap[0] );
             $relinfo->map_from( $rdbo_rel->map_from );
         }
         else {
@@ -94,12 +100,22 @@ sub discover_relationships {
                 croak "no foreign class in relinfo: " . dump $relinfo;
             }
             $controller_name =~ s/^${prefix}:://;
-            my $controller_prefix = $self->controller_prefix;
             $relinfo->controller_class(
                 join( '::',
                     grep { defined($_) }
-                        ( $controller_prefix, $controller_name ) )
+                        ( $self->controller_prefix, $controller_name ) )
             );
+            if ( $relinfo->map_class ) {
+                my $map_class_prefix
+                    = $relinfo->map_class->schema_class_prefix;
+                my $controller_name = $relinfo->map_class;
+                $controller_name =~ s/^${map_class_prefix}:://;
+                $relinfo->map_class_controller_class(
+                    join( '::',
+                        grep { defined($_) }
+                            ( $self->controller_prefix, $controller_name ) )
+                );
+            }
 
             # only want a controller instance if $app is fully
             # initialized (not a class name)

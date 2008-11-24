@@ -6,14 +6,16 @@ use Rose::Object::MakeMethods::Generic (
     'scalar --get_set' => [
         qw( name type method label
             object_class foreign_class foreign_column
-            map_from map_to map_class cmap
-            controller controller_class app
+            map_from map_to map_class map_to_column map_from_column
+            cmap controller controller_class app
+            map_class_controller_class
             )
     ],
 );
 use Carp;
+use Scalar::Util;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -50,6 +52,12 @@ These are all get/set methods.
 =head2 map_to
 
 =head2 map_class
+
+=head2 map_to_column
+
+=head2 map_from_column
+
+=head2 map_class_controller_class
 
 =head2 cmap
 
@@ -90,6 +98,24 @@ sub foreign_column_for {
     else {
         return $self->foreign_column;
     }
+}
+
+=head2 as_hash
+
+Returns all non-blessed values in a single hashref. Suitable for debugging.
+
+=cut
+
+sub as_hash {
+    my $self = shift;
+    my %hash;
+    for my $key ( keys %$self ) {
+        my $value = $self->$key;
+        if ( !Scalar::Util::blessed($value) ) {
+            $hash{$key} = $value;
+        }
+    }
+    return \%hash;
 }
 
 1;

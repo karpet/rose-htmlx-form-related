@@ -8,7 +8,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -90,6 +90,8 @@ sub discover_relationships {
                 $relinfo->map_from( $m2m->{map_from} );
                 $relinfo->foreign_class( $m2m->{foreign_class} );
                 $relinfo->map_to( $m2m->{map_to} );
+                $relinfo->map_to_column( $m2m->{map_to_column} );
+                $relinfo->map_from_column( $m2m->{map_from_column} );
                 $relinfo->label(
                     $self->labels->{ $relinfo->method } || join( ' ',
                         map { ucfirst($_) }
@@ -151,6 +153,18 @@ sub discover_relationships {
                     grep { defined($_) }
                         ( $controller_prefix, $controller_name ) )
             );
+
+            if ( $relinfo->map_class ) {
+                my $map_class_prefix
+                    = $relinfo->map_class->schema_class_prefix;
+                my $controller_name = $relinfo->map_class;
+                $controller_name =~ s/^${map_class_prefix}:://;
+                $relinfo->map_class_controller_class(
+                    join( '::',
+                        grep { defined($_) }
+                            ( $self->controller_prefix, $controller_name ) )
+                );
+            }
 
             # only want a controller instance if $app is fully
             # initialized (not a class name)

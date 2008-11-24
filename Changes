@@ -55,4 +55,8 @@ Revision history for Rose-HTMLx-Form-Related
         * support the new 'unqiue_value()' method in RDBOHelpers and MoreHelpers, which will now
           override show_related_field_using() when called in foreign_field_value().
 
+0.13    xxx
+        * fix autocomplete bug to call get_controller() rather than simply controller()
+        * add map_to_column, map_from_column and map_class_controller_class to RelInfo
+        * add as_hash() to RelInfo
 

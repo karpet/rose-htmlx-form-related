@@ -24,7 +24,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -337,7 +337,7 @@ sub _convert_field_to_autocomplete {
         size         => 30,                  # ignore original $field size
         maxlength    => $field->maxlength,
         autocomplete => $app->uri_for(
-            '/' . $rel_info->controller->path_prefix,
+            '/' . $rel_info->get_controller->path_prefix,
             'autocomplete'
         ),
         limit => 30,
