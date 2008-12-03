@@ -24,7 +24,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 =head1 NAME
 
@@ -267,6 +267,13 @@ sub __set_menu_options {
     my $objects
         = $self->get_objects( object_class => $rel_info->foreign_class );
     my $hash = { map { $_->$fk => $_->$to_show } @$objects };
+
+    # allow for a non-value (null)
+    # which is particularly useful for search forms
+    unless ( exists $hash->{''} ) {
+        $hash->{''} = '';
+    }
+
     $menu->options(
         [   sort { $hash->{$a} cmp $hash->{$b} }
                 keys %$hash

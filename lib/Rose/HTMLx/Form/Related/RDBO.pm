@@ -6,7 +6,7 @@ use Rose::DB::Object::Manager;
 use Rose::HTMLx::Form::Related::RDBO::Metadata;
 use Carp;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 =head1 NAME
 

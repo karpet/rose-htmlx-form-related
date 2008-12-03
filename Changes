@@ -60,3 +60,6 @@ Revision history for Rose-HTMLx-Form-Related
         * add map_to_column, map_from_column and map_class_controller_class to RelInfo
         * add as_hash() to RelInfo
 
+0.14    xxx
+        * allow for null value in generated menu fields
+
