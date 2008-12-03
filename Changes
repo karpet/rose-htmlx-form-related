@@ -62,4 +62,5 @@ Revision history for Rose-HTMLx-Form-Related
 
 0.14    xxx
         * allow for null value in generated menu fields
+        * double check for controller in make autocomplete field
 
