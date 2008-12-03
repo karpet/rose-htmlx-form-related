@@ -334,6 +334,8 @@ sub _convert_field_to_autocomplete {
 
     return if !defined $to_show;
 
+    my $controller = $rel_info->get_controller or return;
+
     my $ac = Rose::HTMLx::Form::Field::Autocomplete->new(
         id       => $field->id,
         type     => 'autocomplete',
@@ -341,12 +343,10 @@ sub _convert_field_to_autocomplete {
         label    => $field->label,
         tabindex => $field->tabindex,
         rank     => $field->rank,
-        size         => 30,                  # ignore original $field size
-        maxlength    => $field->maxlength,
-        autocomplete => $app->uri_for(
-            '/' . $rel_info->get_controller->path_prefix,
-            'autocomplete'
-        ),
+        size      => 30,                  # ignore original $field size
+        maxlength => $field->maxlength,
+        autocomplete =>
+            $app->uri_for( '/' . $controller->path_prefix, 'autocomplete' ),
         limit => 30,
     );
 
