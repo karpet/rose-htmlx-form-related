@@ -262,6 +262,9 @@ sub _build {
             $relinfo->foreign_column( {} );
             for my $field_name ( @{ $self->form->field_names } ) {
                 next unless exists $colmap->{$field_name};
+                
+                # avoid condition where o2m overrides a FK
+                next if exists $related_fields{$field_name};
 
                 #warn
                 #    "field_name $field_name is in cmap";

@@ -63,4 +63,6 @@ Revision history for Rose-HTMLx-Form-Related
 0.14    xxx
         * allow for null value in generated menu fields
         * double check for controller in make autocomplete field
+        * catch condition where the same field is used as both a FK and one side of a o2m relationship.
+          prefer the FK.
 
