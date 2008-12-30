@@ -207,7 +207,7 @@ sub interrelate_fields {
             return;
         }
         elsif ( $self->debug ) {
-            warn "get_objects_count returned $count for $field";
+            warn "get_objects_count returned $count for $field (max = $max)";
         }
 
         $count_cache{ $rel_info->foreign_class } = $count;
@@ -219,6 +219,8 @@ sub interrelate_fields {
             $self->_convert_field_to_menu( $field, $rel_info );
         }
     }
+    
+    $self->debug and warn "interrelated fields complete for $self";
 }
 
 =head2 get_objects_count( object_class => I<class_name> )
@@ -321,18 +323,22 @@ sub _convert_field_to_autocomplete {
     return if defined $field->type and $field->type eq 'hidden';
     return if $field->isa('Rose::HTMLx::Form::Field::Autocomplete');
 
-    #dump $meta;
+    #dump $self;
     my $app = $self->app || $self->app_class
         or croak "app() or app_class() required for autocomplete";
     unless ( $app->can('uri_for') ) {
         croak "app $app does not implement a uri_for() method";
     }
+    
+    $self->debug && warn "convert $field_name to autocomplete";
 
     my $to_show
         = $self->metadata->show_related_field_using( $rel_info->foreign_class,
         $field_name );
 
     return if !defined $to_show;
+
+    $self->debug && warn "show_related field using $to_show";
 
     my $controller = $rel_info->get_controller or return;
 
