@@ -60,7 +60,7 @@ Revision history for Rose-HTMLx-Form-Related
         * add map_to_column, map_from_column and map_class_controller_class to RelInfo
         * add as_hash() to RelInfo
 
-0.14    xxx
+0.14    30 Dec 2008
         * allow for null value in generated menu fields
         * double check for controller in make autocomplete field
         * catch condition where the same field is used as both a FK and one side of a o2m relationship.
