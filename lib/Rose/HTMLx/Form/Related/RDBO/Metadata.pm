@@ -4,7 +4,7 @@ use base qw( Rose::HTMLx::Form::Related::Metadata );
 use Carp;
 use Data::Dump qw( dump );
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 =head1 NAME
 
@@ -91,7 +91,7 @@ sub discover_relationships {
 
         if ($app) {
 
-            $relinfo->app($app);
+            $relinfo->app($app) if ref $app;
 
             # create URL and controller if available.
             my $prefix          = $self->object_class->schema_class_prefix;

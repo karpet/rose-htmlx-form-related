@@ -66,3 +66,7 @@ Revision history for Rose-HTMLx-Form-Related
         * catch condition where the same field is used as both a FK and one side of a o2m relationship.
           prefer the FK.
 
+0.15    xxx
+        * double check that $app is a ref() rather than a class name before setting in RelInfo
+
+
