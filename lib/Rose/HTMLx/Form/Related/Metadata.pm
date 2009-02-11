@@ -67,6 +67,23 @@ sub init {
     return $self;
 }
 
+=head2 form( [I<form>] )
+
+Get/set the Rose::HTMLx::Related::Form object.
+
+=head2 related_field_names([I<array_ref>])
+
+Get/set the array ref of field names representing foreign keys.
+
+=head2 related_fields( [I<hash_ref>] )
+
+Get/set the hash ref of related field names to RelInfo objects.
+
+=head2 relationship_data( [I<hash_ref>] )
+
+Get/set the hash ref of RelInfo objects, keyed by the RelInfo->name
+value.
+
 =head2 show_related_fields
 
 Boolean indicating whether the Form should provide links to related
@@ -262,7 +279,7 @@ sub _build {
             $relinfo->foreign_column( {} );
             for my $field_name ( @{ $self->form->field_names } ) {
                 next unless exists $colmap->{$field_name};
-                
+
                 # avoid condition where o2m overrides a FK
                 next if exists $related_fields{$field_name};
 
