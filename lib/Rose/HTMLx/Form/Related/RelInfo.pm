@@ -15,7 +15,7 @@ use Rose::Object::MakeMethods::Generic (
 use Carp;
 use Scalar::Util;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 

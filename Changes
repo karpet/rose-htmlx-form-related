@@ -71,3 +71,7 @@ Revision history for Rose-HTMLx-Form-Related
         * add missing docs that Class::XSAccessor (optional for Rose::Object) triggers for
           Pod::Coverage
 
+0.16    xxx
+        * revert change in 0.15 with only setting $app if ref(). This caused tests in CatalystX::CRUD::YUI to fail.
+
+

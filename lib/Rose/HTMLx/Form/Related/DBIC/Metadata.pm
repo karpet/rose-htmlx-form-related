@@ -8,7 +8,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 
@@ -138,7 +138,7 @@ sub discover_relationships {
 
         if ($app) {
 
-            $relinfo->app($app) if ref $app;
+            $relinfo->app($app);
 
             # create URL and controller if available.
             my $prefix          = $class->schema_class_prefix;
