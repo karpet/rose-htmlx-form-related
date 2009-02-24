@@ -219,7 +219,7 @@ sub interrelate_fields {
             $self->_convert_field_to_menu( $field, $rel_info );
         }
     }
-    
+
     $self->debug and warn "interrelated fields complete for $self";
 }
 
@@ -322,6 +322,7 @@ sub _convert_field_to_autocomplete {
     return if $field->isa('Rose::HTML::Form::Field::Hidden');
     return if defined $field->type and $field->type eq 'hidden';
     return if $field->isa('Rose::HTMLx::Form::Field::Autocomplete');
+    return if !$field->isa('Rose::HTML::Form::Field::Text');
 
     #dump $self;
     my $app = $self->app || $self->app_class
@@ -329,7 +330,7 @@ sub _convert_field_to_autocomplete {
     unless ( $app->can('uri_for') ) {
         croak "app $app does not implement a uri_for() method";
     }
-    
+
     $self->debug && warn "convert $field_name to autocomplete";
 
     my $to_show

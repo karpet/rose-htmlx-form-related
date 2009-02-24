@@ -73,5 +73,6 @@ Revision history for Rose-HTMLx-Form-Related
 
 0.16    xxx
         * revert change in 0.15 with only setting $app if ref(). This caused tests in CatalystX::CRUD::YUI to fail.
+        * don't try converting non-text fields to autocomplete
 
 
