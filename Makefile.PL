@@ -14,6 +14,7 @@ WriteMakefile(
         'Rose::HTMLx::Form::Field::Boolean' => 0,
         'Rose::HTMLx::Form::Field::Autocomplete' => 0,
         'Rose::HTMLx::Form::Field::Serial' => 0.002,
+        'Rose::HTMLx::Form::Field::PopUpMenuNumeric' => 0,
         'Data::Dump' => 0,
         'Scalar::Util' => 0,
     },

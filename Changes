@@ -75,4 +75,6 @@ Revision history for Rose-HTMLx-Form-Related
         * revert change in 0.15 with only setting $app if ref(). This caused tests in CatalystX::CRUD::YUI to fail.
         * don't try converting non-text fields to autocomplete
 
+0.17    xxx
+        * add Rose::HTMLx::Form::Field::PopUpMenuNumeric as dependency
 
