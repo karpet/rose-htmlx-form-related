@@ -77,4 +77,4 @@ Revision history for Rose-HTMLx-Form-Related
 
 0.17    xxx
         * add Rose::HTMLx::Form::Field::PopUpMenuNumeric as dependency
-
+        * skip non-FKs when designating a related_field

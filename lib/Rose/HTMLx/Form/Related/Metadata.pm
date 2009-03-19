@@ -264,7 +264,7 @@ sub _build {
         croak "relationships() should be an ARRAY reference";
     }
 
-    for my $relinfo ( @{ $self->relationships } ) {
+RELINFO: for my $relinfo ( @{ $self->relationships } ) {
 
         if ( ref($relinfo) eq 'HASH' ) {
             $relinfo = bless( $relinfo, $self->relinfo_class );
@@ -275,9 +275,15 @@ sub _build {
 
         $relationship_info{ $relinfo->name } = $relinfo;
 
+        # skip unless explicitly defined as a FK
+        # so we don't get PKs and UKs in here by mistake
+        next RELINFO unless $relinfo->type eq 'foreign key';
+
         if ( my $colmap = $relinfo->cmap ) {
             $relinfo->foreign_column( {} );
-            for my $field_name ( @{ $self->form->field_names } ) {
+        FIELDNAME: for my $field_name ( @{ $self->form->field_names } ) {
+
+                # skip unless it's in the column map
                 next unless exists $colmap->{$field_name};
 
                 # avoid condition where o2m overrides a FK
