@@ -79,4 +79,5 @@ Revision history for Rose-HTMLx-Form-Related
         * add Rose::HTMLx::Form::Field::PopUpMenuNumeric as dependency
         * skip non-FKs when designating a related_field
         * add default_related_sort_by() to Metadata base class
+        * add sort_prefix() to Metadata base class
 

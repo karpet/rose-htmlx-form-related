@@ -15,12 +15,13 @@ use Rose::Object::MakeMethods::Generic (
             related_fields related_field_names )
     ],
     'scalar --get_set_init' => [
-        'relationships',            'relinfo_class',
-        'object_class',             'labels',
-        'controller_prefix',        'field_uris',
-        'related_field_map',        'default_sort_by',
-        'default_related_sort_by',  'default_selected',
-        'takes_object_as_argument', 'field_methods',
+        'relationships',     'relinfo_class',
+        'object_class',      'labels',
+        'controller_prefix', 'field_uris',
+        'related_field_map', 'sort_prefix',
+        'default_sort_by',   'default_related_sort_by',
+        'default_selected',  'takes_object_as_argument',
+        'field_methods',
     ],
     'boolean --get_set' => [
         'show_related_values' => { default => 1 },
@@ -123,6 +124,18 @@ labels to non-fields like relationship names.
 =cut
 
 sub init_labels { return {} }
+
+=head2 init_sort_prefix
+
+Should return a hashref of method (field) names to any strings that should
+be prefixed to the name for sorting. This is to support (for example)
+sorts on multi-table joins.
+
+Default is empty hashref.
+
+=cut
+
+sub init_sort_prefix { {} }
 
 =head2 init_object_class
 
