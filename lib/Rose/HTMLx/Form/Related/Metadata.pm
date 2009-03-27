@@ -15,12 +15,12 @@ use Rose::Object::MakeMethods::Generic (
             related_fields related_field_names )
     ],
     'scalar --get_set_init' => [
-        'relationships',     'relinfo_class',
-        'object_class',      'labels',
-        'controller_prefix', 'field_uris',
-        'related_field_map', 'default_sort_by',
-        'default_selected',  'takes_object_as_argument',
-        'field_methods',
+        'relationships',            'relinfo_class',
+        'object_class',             'labels',
+        'controller_prefix',        'field_uris',
+        'related_field_map',        'default_sort_by',
+        'default_related_sort_by',  'default_selected',
+        'takes_object_as_argument', 'field_methods',
     ],
     'boolean --get_set' => [
         'show_related_values' => { default => 1 },
@@ -152,11 +152,22 @@ sub init_field_uris {
 Should return the name of the field to sort by in (for example)
 search results.
 
-Default is null (emptry string).
+Default is null (empty string).
 
 =cut
 
 sub init_default_sort_by { return '' }
+
+=head2 init_default_related_sort_by
+
+Should return the name of the related field to sort by in (for
+example) search results that join tables.
+
+Default is null (empty string).
+
+=cut
+
+sub init_default_related_sort_by { return '' }
 
 =head2 init_default_selected
 
