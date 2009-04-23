@@ -75,7 +75,7 @@ Revision history for Rose-HTMLx-Form-Related
         * revert change in 0.15 with only setting $app if ref(). This caused tests in CatalystX::CRUD::YUI to fail.
         * don't try converting non-text fields to autocomplete
 
-0.17    xxx
+0.17    22 April 2009
         * add Rose::HTMLx::Form::Field::PopUpMenuNumeric as dependency
         * skip non-FKs when designating a related_field
         * add default_related_sort_by() to Metadata base class
