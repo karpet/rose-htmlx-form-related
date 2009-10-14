@@ -4,6 +4,7 @@ use lib qw( t ../lib lib );
 use strict;
 use warnings;
 use MyDBIC::Main;
+use Data::Dump;
 
 my $schema = MyDBIC::Main->connect('dbi:SQLite:dbic_example.db');
 my $dbh    = $schema->storage->dbh;
@@ -89,8 +90,10 @@ my @cds;
 foreach my $lp ( sort keys %albums ) {
     my $artist
         = $schema->resultset('Artist')->search( { name => $albums{$lp} } );
-    push @cds, [ $lp, $artist->first ];
+    push @cds, [ $lp, $artist->first->artistid ];
 }
+
+#warn("populate 'cd' with " . Data::Dump::dump \@cds );
 
 $schema->populate( 'Cd', [ [qw/title artist/], @cds, ] );
 
