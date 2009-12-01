@@ -81,6 +81,6 @@ Revision history for Rose-HTMLx-Form-Related
         * add default_related_sort_by() to Metadata base class
         * add sort_prefix() to Metadata base class
 
-0.18    xxx
+0.18    1 Dec 2009
         * fix failing dbic test
 
