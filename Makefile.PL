@@ -17,6 +17,7 @@ WriteMakefile(
         'Rose::HTMLx::Form::Field::PopUpMenuNumeric' => 0,
         'Data::Dump' => 0,
         'Scalar::Util' => 0,
+        'MRO::Compat'  => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Rose-HTMLx-Form-Related-*' },

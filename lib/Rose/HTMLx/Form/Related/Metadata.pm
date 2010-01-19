@@ -7,7 +7,7 @@ use base qw( Rose::Object );
 
 use Rose::HTMLx::Form::Related::RelInfo;
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 use Rose::Object::MakeMethods::Generic (
     'scalar' => [
@@ -450,6 +450,10 @@ sub show_related_field_using {
 
     if ( exists $self->related_field_map->{$field} ) {
         return $self->related_field_map->{$field};
+    }
+    
+    if ($fclass->can('unique_value')) {
+        return 'unique_value';
     }
 
     return undef;

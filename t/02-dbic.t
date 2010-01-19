@@ -67,11 +67,12 @@ SKIP: {
         "cdedition relationships" );
     is( scalar(@$cdedition_rels), 2, "2 cdedition rels" );
 
-    # make sure interrelate fields was aborted for the cdcollection rel
-    ok( $cdeditionform->field('cdid')
-            ->isa('Rose::HTML::Form::Field::Integer'),
-        "interrelate_fields correctly aborted"
-    );
+    # make sure interrelate fields deferred and used unique_value().
+    my $cdid_field = $cdeditionform->field('cdid');
+
+    #diag( dump($cdid_field) );
+    ok( $cdid_field->isa('Rose::HTMLx::Form::Field::PopUpMenuNumeric'),
+        "interrelate_fields correctly aborted" );
 
     #dump $cdeditionform;
 

@@ -3,8 +3,10 @@ use strict;
 use base qw( Rose::HTMLx::Form::Related::Metadata );
 use Carp;
 use Data::Dump qw( dump );
+use MRO::Compat;
+use mro 'c3';
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 =head1 NAME
 
@@ -146,9 +148,8 @@ sub show_related_field_using {
     my $fclass = shift or croak "foreign_object_class required";
     my $field  = shift or croak "field_name required";
 
-    if ( exists $self->related_field_map->{$field} ) {
-        return $self->related_field_map->{$field};
-    }
+    my $method = $self->next::method( $fclass, $field );
+    return $method if $method;
 
     # find the first single-column unique char/varchar method name
     my @ukeys = $fclass->meta->unique_keys_column_names;

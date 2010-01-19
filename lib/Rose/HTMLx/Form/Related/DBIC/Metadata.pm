@@ -7,8 +7,10 @@ use Rose::Object::MakeMethods::Generic (
     'scalar --get_set_init' => [qw( schema_class )],
 
 );
+use MRO::Compat;
+use mro 'c3';
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 =head1 NAME
 
@@ -194,12 +196,10 @@ sub show_related_field_using {
     my $fclass = shift or croak "foreign_object_class required";
     my $field  = shift or croak "field_name required";
 
-    if ( exists $self->related_field_map->{$field} ) {
-        return $self->related_field_map->{$field};
-    }
+    my $method = $self->next::method( $fclass, $field );
+    return $method if $method;
 
     # find the first unique single-col column of type char/varchar
-
     for my $constraint ( $fclass->unique_constraint_names ) {
 
         $self->form->debug
