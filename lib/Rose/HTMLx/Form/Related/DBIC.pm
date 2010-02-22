@@ -6,7 +6,7 @@ use Rose::HTMLx::Form::Related::DBIC::Metadata;
 use Carp;
 use Data::Dump qw( dump );
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 =head1 NAME
 

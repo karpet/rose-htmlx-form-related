@@ -88,3 +88,6 @@ Revision history for Rose-HTMLx-Form-Related
         * add dep on MRO::Compat. Use it in show_related_field_using() in RDBO and DBIC Metadata subclasses.
         * show_related_field_using() will now return 'unique_value' if the foreign class implements that method.
 
+0.20    21 Feb 2010
+        * pass field->description through when transforming related Field objects.
+
