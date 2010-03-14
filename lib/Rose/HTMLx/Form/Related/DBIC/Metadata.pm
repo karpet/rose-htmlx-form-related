@@ -10,7 +10,7 @@ use Rose::Object::MakeMethods::Generic (
 use MRO::Compat;
 use mro 'c3';
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 =head1 NAME
 

@@ -27,7 +27,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 =head1 NAME
 
@@ -306,15 +306,18 @@ sub _convert_field_to_menu {
         : 'Rose::HTML::Form::Field::PopUpMenu';
 
     my $menu = $menu_class->new(
-        id          => $field->id,
-        name        => $field_name,
-        type        => 'menu',
-        class       => 'interrelated ' . ( $field->class || '' ),
-        label       => $field->label,
-        tabindex    => $field->tabindex,
-        rank        => $field->rank,
-        description => $field->description,
+        id       => $field->id,
+        name     => $field_name,
+        type     => 'menu',
+        class    => 'interrelated ' . ( $field->class || '' ),
+        label    => $field->label,
+        tabindex => $field->tabindex,
+        rank     => $field->rank,
     );
+
+    if ( defined $field->description ) {
+        $menu->description( $field->description );
+    }
     $self->__set_menu_options( $menu, $rel_info ) or return;
 
     # must delete first since field() will return cached $field
@@ -363,9 +366,12 @@ sub _convert_field_to_autocomplete {
         maxlength => $field->maxlength,
         autocomplete =>
             $app->uri_for( '/' . $controller->path_prefix, 'autocomplete' ),
-        limit       => 30,
-        description => $field->description,
+        limit => 30,
     );
+
+    if ( defined $field->description ) {
+        $ac->description( $field->description );
+    }
 
     # must delete first since field() will return cached $field
     # if it already has been added.
