@@ -91,5 +91,6 @@ Revision history for Rose-HTMLx-Form-Related
 0.20    21 Feb 2010
         * pass field->description through when transforming related Field objects.
 
-0.21    xxx
+0.21    18 Mar 2010
         * only pass field->description if it is defined.
+
