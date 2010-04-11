@@ -94,3 +94,6 @@ Revision history for Rose-HTMLx-Form-Related
 0.21    18 Mar 2010
         * only pass field->description if it is defined.
 
+0.22    xxx
+        * use RelInfo->label, if defined, as the label for converted fields.
+

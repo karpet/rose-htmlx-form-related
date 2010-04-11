@@ -27,7 +27,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 
 =head1 NAME
 
@@ -310,7 +310,7 @@ sub _convert_field_to_menu {
         name     => $field_name,
         type     => 'menu',
         class    => 'interrelated ' . ( $field->class || '' ),
-        label    => $field->label,
+        label    => $rel_info->label || $field->label,
         tabindex => $field->tabindex,
         rank     => $field->rank,
     );
@@ -359,7 +359,7 @@ sub _convert_field_to_autocomplete {
         id       => $field->id,
         type     => 'autocomplete',
         class    => 'interrelated autocomplete ' . ( $field->class || '' ),
-        label    => $field->label,
+        label    => $rel_info->label || $field->label,
         tabindex => $field->tabindex,
         rank     => $field->rank,
         size      => 30,                  # ignore original $field size
