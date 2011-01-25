@@ -97,3 +97,6 @@ Revision history for Rose-HTMLx-Form-Related
 0.22    11 April 2010
         * use RelInfo->label, if defined, as the label for converted fields.
 
+0.23    xxx
+        * doc patch from Adam Mackler
+

@@ -27,7 +27,7 @@ use Rose::Object::MakeMethods::Generic (
 
 );
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 =head1 NAME
 

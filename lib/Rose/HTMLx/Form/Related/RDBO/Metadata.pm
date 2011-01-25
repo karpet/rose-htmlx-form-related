@@ -6,7 +6,7 @@ use Data::Dump qw( dump );
 use MRO::Compat;
 use mro 'c3';
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 =head1 NAME
 
