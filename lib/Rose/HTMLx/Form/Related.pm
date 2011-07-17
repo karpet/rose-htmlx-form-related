@@ -38,6 +38,15 @@ Rose::HTMLx::Form::Related - RHTMLO forms, living together
  package MyForm;
  use strict;
  use parent 'Rose::HTMLx::Form::Related';
+ 
+ sub init_metadata {
+    my $self = shift;
+    return $self->metadata_class->new(
+        form => $self,
+        object_class => 'MyORMClass',
+    );
+ }
+ 
  1;
 
 =head1 DESCRIPTION
