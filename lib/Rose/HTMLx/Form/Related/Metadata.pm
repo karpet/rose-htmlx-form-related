@@ -301,7 +301,11 @@ RELINFO: for my $relinfo ( @{ $self->relationships } ) {
 
         # skip unless explicitly defined as a FK
         # so we don't get PKs and UKs in here by mistake
-        next RELINFO unless $relinfo->type eq 'foreign key';
+        if (    $relinfo->type ne 'foreign key'
+            and $relinfo->type ne 'many to one' )
+        {
+            next RELINFO;
+        }
 
         if ( my $colmap = $relinfo->cmap ) {
             $relinfo->foreign_column( {} );
@@ -458,8 +462,8 @@ sub show_related_field_using {
     if ( exists $self->related_field_map->{$field} ) {
         return $self->related_field_map->{$field};
     }
-    
-    if ($fclass->can('unique_value')) {
+
+    if ( $fclass->can('unique_value') ) {
         return 'unique_value';
     }
 
