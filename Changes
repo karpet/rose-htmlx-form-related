@@ -1,10 +1,11 @@
 Revision history for Rose-HTMLx-Form-Related
 
-0.23 xxx
+0.23 24 Sept 2013
  - doc patch from Adam Mackler
  - doc patch and RDBO tests inspired by mailing list questions from Gordon
    Haverland
  - treat many-to-one relationship like foreign key relationship in RDBO metadata
+ - master repository moved to github, Changes file ran through tidy_changelog
 
 0.22 11 April 2010
  - use RelInfo->label, if defined, as the label for converted fields.
