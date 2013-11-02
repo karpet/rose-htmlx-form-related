@@ -1,5 +1,8 @@
 Revision history for Rose-HTMLx-Form-Related
 
+0.24 2 Nov 2013
+ - skip POD tests on CPAN
+
 0.23 24 Sept 2013
  - doc patch from Adam Mackler
  - doc patch and RDBO tests inspired by mailing list questions from Gordon
