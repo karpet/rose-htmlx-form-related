@@ -32,4 +32,19 @@ WriteMakefile(
         ? (LICENSE => 'perl')
         : ()),
 
+    ($mm_ver <= 6.45
+        ? ()
+        : (META_MERGE => {
+            'meta-spec' => { version => 2 },
+            resources => {
+                bugtracker  => 'http://rt.cpan.org/Public/Dist/Display.html?Name=Rose-HTMLx-Form-Related',
+                repository  => {
+                    type => 'git',
+                    web  => 'https://github.com/karpet/rose-htmlx-form-related',
+                    url  => 'git://github.com/karpet/rose-htmlx-form-related.git',
+                },
+            },
+          })
+    ),
+
 );
